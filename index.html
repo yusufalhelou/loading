@@ -23,7 +23,7 @@
     }
     
     .container {
-      aspect-ratio: 9/16;
+      /* aspect-ratio: 9/16; */
       width: auto;
       height: 100%;
       max-width: 100%;
@@ -34,13 +34,13 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 5px;
+      padding: 5px; /* This padding affects the size of .content-wrapper */
     }
     
     .content-wrapper {
       position: relative;
       width: 100%;
-      height: 100%;
+      height: 100%; /* Takes full height of the padded .container's content box */
       display: flex;
       align-items: center;
       justify-content: center;
@@ -72,17 +72,18 @@
       z-index: 2;
       color: #2ff;
       text-align: center;
-      padding: 5px;
-      font-size: 1.4vh;
+      padding: 5px; /* This padding is part of the paragraph's scrollHeight */
+      /* font-size: 1.4vh; */ /* Will be dynamically set by JavaScript */
       line-height: 1.2;
       animation: b 5s infinite;
       text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
       max-width: 100%;
-      max-height: 100vh;
-      overflow: hidden;
+      /* max-height: 100vh; */ /* Height effectively managed by JS */
+      overflow: hidden; /* Clip content if somehow it still overflows slightly */
       text-transform: uppercase;
       letter-spacing: 0.3px;
-      display: block;
+      display: block; 
+      width: 100%; /* Ensure it uses the full width of content-wrapper for text wrapping */
     }
     
     @keyframes fc {
@@ -143,5 +144,88 @@
       </div>
     </div>
   </div>
+
+  <script>
+    function adjustParagraphFontSize() {
+      const paragraph = document.querySelector('.courses-text');
+      const fitToElement = document.querySelector('.content-wrapper');
+
+      if (!paragraph || !fitToElement) {
+        return;
+      }
+
+      const targetHeight = fitToElement.clientHeight;
+
+      if (targetHeight <= 0) {
+        paragraph.style.fontSize = '1px'; // Fallback for no target height
+        return;
+      }
+
+      let minFontSize = 0.1; 
+      let maxFontSize = targetHeight; // Initial upper bound for font size
+      let bestFontSize = minFontSize;
+
+      // Binary search for the optimal font size
+      // Iterate enough times for precision (e.g., ~30 iterations for typical scenarios)
+      for (let i = 0; i < 30; i++) { 
+        let currentFontSize = (minFontSize + maxFontSize) / 2;
+        
+        if (currentFontSize < 0.01) currentFontSize = 0.01; // Prevent font size from being too small or zero
+
+        paragraph.style.fontSize = currentFontSize + 'px';
+        const currentScrollHeight = paragraph.scrollHeight;
+
+        if (currentScrollHeight <= targetHeight) {
+          bestFontSize = currentFontSize; // This size fits, try larger
+          minFontSize = currentFontSize;
+        } else {
+          maxFontSize = currentFontSize; // This size is too big, try smaller
+        }
+
+        if ((maxFontSize - minFontSize) < 0.05) { // Desired precision (e.g., 0.05px)
+          break;
+        }
+      }
+      
+      paragraph.style.fontSize = bestFontSize + 'px';
+
+      // Final check: If bestFontSize is applied and it slightly overflows,
+      // it might be due to sub-pixel calculations or the binary search ending right at the threshold.
+      // This ensures it strictly fits if bestFontSize was indeed the upper limit of what fits.
+      if (paragraph.scrollHeight > targetHeight && bestFontSize > 0.1) {
+         let slightlySmallerFont = bestFontSize - 0.1;
+         if (slightlySmallerFont < 0.1) slightlySmallerFont = 0.1; // Ensure a minimum
+         paragraph.style.fontSize = slightlySmallerFont + 'px';
+      }
+    }
+
+    function debounce(func, delay) {
+      let timeout;
+      return function(...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), delay);
+      };
+    }
+
+    const debouncedAdjustFontSize = debounce(adjustParagraphFontSize, 100);
+
+    window.addEventListener('DOMContentLoaded', () => {
+        if (document.fonts) {
+            document.fonts.ready.then(() => {
+                adjustParagraphFontSize();
+            }).catch(() => {
+                // Fallback if font ready promise fails
+                setTimeout(adjustParagraphFontSize, 50); 
+            });
+        } else {
+             // Fallback for older browsers
+            setTimeout(adjustParagraphFontSize, 50);
+        }
+    });
+    window.addEventListener('resize', debouncedAdjustFontSize);
+    // An additional call on 'load' can sometimes help ensure all resources and layouts are final
+    window.addEventListener('load', adjustParagraphFontSize);
+
+  </script>
 </body>
 </html>
