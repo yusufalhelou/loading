@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Academic Journey Loading Screen</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, minimum-scale=1">
+  <title>The Academic Journey</title>
   <style>
     * {
       margin: 0;
@@ -130,34 +130,10 @@
       }
     }
     
-    /* Aspect ratio bars for non-9:16 screens */
-    .top-bar, .bottom-bar {
-      position: absolute;
-      left: 0;
-      width: 100%;
-      height: calc((100% - 100vh * 9/16) / 2);
-      background: #000;
-      z-index: 10;
-    }
     
-    .top-bar {
-      top: 0;
-    }
-    
-    .bottom-bar {
-      bottom: 0;
-    }
-    
-    /* Hide bars when not needed */
-    @media (max-aspect-ratio: 9/16) {
-      .top-bar, .bottom-bar {
-        display: none;
-      }
-    }
   </style>
 </head>
 <body>
-  <div class="top-bar"></div>
   
   <div class="container">
     <div class="content-wrapper">
@@ -170,6 +146,5 @@
     </div>
   </div>
   
-  <div class="bottom-bar"></div>
 </body>
 </html>
