@@ -1,233 +1,254 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, minimum-scale=1">
-  <title>The Academic Journey</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      background: #000;
-      overflow: hidden;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Cutive Mono', monospace;
-      filter: contrast(3);
-    }
-    
-    .container {
-      /* aspect-ratio: 9/16; */
-      width: 100%;
-      height: 100%;
-      max-width: 100vw;
-      max-height: 100vh;
-      position: relative;
-      overflow: hidden;
-      background: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 5px; /* This padding affects the size of .content-wrapper */
-    }
-    
-    .content-wrapper {
-      position: relative;
-      width: 100%;
-      height: 100%; /* Takes full height of the padded .container's content box */
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px; /* Increased padding for void space */
-    }
-    
-    .dot {
-      position: absolute;
-      border-radius: 10px;
-      filter: blur(10px);
-      height: 20px;
-      width: 20px;
-      z-index: 1;
-    }
-    
-    .dot:nth-child(1) {
-      animation: fc 10s ease infinite;
-      top: 30%;
-      left: 20%;
-    }
-    
-    .dot:nth-child(2) {
-      animation: lc 10s ease infinite;
-      bottom: 40%;
-      right: 25%;
-    }
-    
-    .courses-text {
-      position: relative;
-      z-index: 2;
-      color: #2ff;
-      text-align: center;
-      padding: 5px; /* This padding is part of the paragraph's scrollHeight */
-      /* font-size: 1.4vh; */ /* Will be dynamically set by JavaScript */
-      line-height: 1.2;
-      animation: b 5s infinite;
-      text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
-      max-width: 100%;
-      /* max-height: 100vh; */ /* Height effectively managed by JS */
-      max-height: 100vh;
-      overflow: hidden; /* Clip content if somehow it still overflows slightly */
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      display: block; 
-      width: 100%; /* Ensure it uses the full width of content-wrapper for text wrapping */
-    }
-    
-    @keyframes fc {
-      0% {
-        background: #ddf;
-        transform: translate3d(0, 0, 0);
-      }
-      25% {
-        background: #1d2;
-      }
-      50% {
-        background: #aaf;
-        transform: translate3d(80px, 40px, 0);
-      }
-      100% {
-        background: #ddf;
-        transform: translate3d(0, 0, 0);
-      }
-    }
-    
-    @keyframes lc {
-      0% {
-        background: #3fd;
-      }
-      25% {
-        background: #4df;
-      }
-      50% {
-        background: #12d;
-        transform: translate3d(-60px, -30px, 0);
-      }
-      75% {
-        background: #4df;
-      }
-      100% {
-        background: #3fd;
-      }
-    }
-    
-    @keyframes b {
-      0%, 100% {
-        filter: blur(5px);
-      }
-      50% {
-        filter: blur(1.5px);
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1, minimum-scale=1">
+    <title>The Academic Journey</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            overflow: hidden;
+            /* Use dvh for mobile compatibility if supported, fallback to vh */
+            height: 100dvh; 
+            height: 100vh; /* Fallback for browsers not supporting dvh */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Cutive Mono', monospace;
+            filter: contrast(3);
+        }
+        
+        .container {
+            width: 100%;
+            height: 100%;
+            /* Use dvw and dvh for max-width/height as well for consistency */
+            max-width: 100dvw;
+            max-height: 100dvh;
+            max-width: 100vw; /* Fallback */
+            max-height: 100vh; /* Fallback */
+            position: relative;
+            overflow: hidden;
+            background: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .dot {
+            position: absolute;
+            border-radius: 10px;
+            filter: blur(10px);
+            height: 20px;
+            width: 20px;
+            z-index: 1;
+        }
+        
+        .dot:nth-child(1) {
+            animation: fc 10s ease infinite;
+            top: 30%;
+            left: 20%;
+        }
+        
+        .dot:nth-child(2) {
+            animation: lc 10s ease infinite;
+            bottom: 40%;
+            right: 25%;
+        }
+        
+        .courses-text {
+            position: relative;
+            z-index: 2;
+            color: #2ff;
+            text-align: center;
+            padding: 5px;
+            line-height: 1.2;
+            animation: b 5s infinite;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+            max-width: 100%;
+            max-height: 100%; /* Important: max-height of content-wrapper */
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            display: block;
+            width: 100%;
+        }
+        
+        @keyframes fc {
+            0% {
+                background: #ddf;
+                transform: translate3d(0, 0, 0);
+            }
+            25% {
+                background: #1d2;
+            }
+            50% {
+                background: #aaf;
+                transform: translate3d(80px, 40px, 0);
+            }
+            100% {
+                background: #ddf;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        
+        @keyframes lc {
+            0% {
+                background: #3fd;
+            }
+            25% {
+                background: #4df;
+            }
+            50% {
+                background: #12d;
+                transform: translate3d(-60px, -30px, 0);
+            }
+            75% {
+                background: #4df;
+            }
+            100% {
+                background: #3fd;
+            }
+        }
+        
+        @keyframes b {
+            0%, 100% {
+                filter: blur(5px);
+            }
+            50% {
+                filter: blur(1.5px);
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <div class="content-wrapper">
-      <div class="dot"></div>
-      <div class="dot"></div>
-      
-      <div class="courses-text">
-        Mathematics | Human Rights and Corruption Fighting | Pharmaceutical Analytical Chemistry 1 | Pharmaceutical Organic Chemistry 1 | Pharmacy Orientation | Medicinal Plants | Medical Terminology | Information Technology | Pharmaceutical Analytical Chemistry 2 | Pharmaceutical Organic Chemistry 2 | Cell Biology | Anatomy and Histology | Physical Pharmacy | Pharmacognosy 1 | Psychology | Communication and Presentation Skills | Pharmaceutical Analytical Chemistry 3 | Pharmaceutical Organic Chemistry 3 | Scientific Writing | Pharmacognosy 2 | Physiology | Pharmaceutics 1 | Biochemistry 1 | General Microbiology and Immunology | Instrumental Analysis | Pathophysiology | Pharmaceutics 2 | Biostatistics | Biochemistry 2 | Parasitology and Virology | Phytochemistry 1 | Pharmaceutics 3 | Spectroscopic Identification | Pharmacology 1 | Pharmaceutical Microbiology | Biopharmaceutics and Pharmacokinetics | Phytochemistry 2 | Pharmaceutics 4 | Pharmacology 2 | Hospital Pharmacy | Geriatrics | Biotechnology | Pharmacology 3 | Applied & Forensic Pharmacognosy | Drug Information | Clinical Biochemistry | Pharmaceutical Technology 1 | Medicinal Chemistry 1 | Pharmaceutical Legislation and Regulatory Affairs | Clinical Nutrition | Clinical Pharmacokinetics | Quality Control and Pharmaceutical Analysis | Phytotherapy and Aromatherapy | Therapeutics | Pharmaceutical Technology 2 | Community Pharmacy Practice | Medicinal Chemistry 2 | Drug Targeting | Medical Microbiology | Clinical Pharmacy 1 | Clinical Research, Pharmacoepidemiology and Pharmacovigilance | Pathology | Good Manufacturing Practice | Drug Marketing & Pharmacoeconomics | Medicinal Chemistry 3 | Drug Design | Toxicology and Forensic Chemistry | First Aid | Research Methodology | Advanced Drug Delivery Systems | Clinical Pharmacy 2 & Pharmacotherapeutics | Entrepreneurship | Public Health | Professional Ethics | Modern Trend in Drug Synthesis
-      </div>
+    <div class="container">
+        <div class="content-wrapper">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            
+            <div class="courses-text">
+                Mathematics | Human Rights and Corruption Fighting | Pharmaceutical Analytical Chemistry 1 | Pharmaceutical Organic Chemistry 1 | Pharmacy Orientation | Medicinal Plants | Medical Terminology | Information Technology | Pharmaceutical Analytical Chemistry 2 | Pharmaceutical Organic Chemistry 2 | Cell Biology | Anatomy and Histology | Physical Pharmacy | Pharmacognosy 1 | Psychology | Communication and Presentation Skills | Pharmaceutical Analytical Chemistry 3 | Pharmaceutical Organic Chemistry 3 | Scientific Writing | Pharmacognosy 2 | Physiology | Pharmaceutics 1 | Biochemistry 1 | General Microbiology and Immunology | Instrumental Analysis | Pathophysiology | Pharmaceutics 2 | Biostatistics | Biochemistry 2 | Parasitology and Virology | Phytochemistry 1 | Pharmaceutics 3 | Spectroscopic Identification | Pharmacology 1 | Pharmaceutical Microbiology | Biopharmaceutics and Pharmacokinetics | Phytochemistry 2 | Pharmaceutics 4 | Pharmacology 2 | Hospital Pharmacy | Geriatrics | Biotechnology | Pharmacology 3 | Applied & Forensic Pharmacognosy | Drug Information | Clinical Biochemistry | Pharmaceutical Technology 1 | Medicinal Chemistry 1 | Pharmaceutical Legislation and Regulatory Affairs | Clinical Nutrition | Clinical Pharmacokinetics | Quality Control and Pharmaceutical Analysis | Phytotherapy and Aromatherapy | Therapeutics | Pharmaceutical Technology 2 | Community Pharmacy Practice | Medicinal Chemistry 2 | Drug Targeting | Medical Microbiology | Clinical Pharmacy 1 | Clinical Research, Pharmacoepidemiology and Pharmacovigilance | Pathology | Good Manufacturing Practice | Drug Marketing & Pharmacoeconomics | Medicinal Chemistry 3 | Drug Design | Toxicology and Forensic Chemistry | First Aid | Research Methodology | Advanced Drug Delivery Systems | Clinical Pharmacy 2 & Pharmacotherapeutics | Entrepreneurship | Public Health | Professional Ethics | Modern Trend in Drug Synthesis
+            </div>
+        </div>
     </div>
-  </div>
 
-  <script>
-    function adjustParagraphFontSize() {
-      const paragraph = document.querySelector('.courses-text');
-      const fitToElement = document.querySelector('.content-wrapper');
+    <script>
+        function adjustParagraphFontSize() {
+            const paragraph = document.querySelector('.courses-text');
+            const fitToElement = document.querySelector('.content-wrapper');
 
-      if (!paragraph || !fitToElement) {
-        return;
-      }
+            if (!paragraph || !fitToElement) {
+                return;
+            }
 
-      const targetHeight = fitToElement.clientHeight;
+            // Get the height of the .content-wrapper, which is the available space
+            const targetHeight = fitToElement.clientHeight;
 
-      if (targetHeight <= 0) {
-        paragraph.style.fontSize = '1px'; // Fallback for no target height
-        return;
-      }
+            if (targetHeight <= 0) {
+                paragraph.style.fontSize = '1px'; 
+                return;
+            }
 
-      let minFontSize = 0.1; 
-      let maxFontSize = targetHeight; // Initial upper bound for font size
-      let bestFontSize = minFontSize;
+            let minFontSize = 0.1;
+            let maxFontSize = targetHeight; 
+            let bestFontSize = minFontSize;
 
-      // Binary search for the optimal font size
-      // Iterate enough times for precision (e.g., ~30 iterations for typical scenarios)
-      for (let i = 0; i < 30; i++) { 
-        let currentFontSize = (minFontSize + maxFontSize) / 2;
-        
-        if (currentFontSize < 0.01) currentFontSize = 0.01; // Prevent font size from being too small or zero
+            for (let i = 0; i < 50; i++) { // Increased iterations for more precision
+                let currentFontSize = (minFontSize + maxFontSize) / 2;
+                
+                if (currentFontSize < 0.01) currentFontSize = 0.01; 
 
-        paragraph.style.fontSize = currentFontSize + 'px';
-        const currentScrollHeight = paragraph.scrollHeight;
+                paragraph.style.fontSize = currentFontSize + 'px';
+                const currentScrollHeight = paragraph.scrollHeight;
 
-        if (currentScrollHeight <= targetHeight) {
-          bestFontSize = currentFontSize; // This size fits, try larger
-          minFontSize = currentFontSize;
-        } else {
-          maxFontSize = currentFontSize; // This size is too big, try smaller
+                if (currentScrollHeight <= targetHeight) {
+                    bestFontSize = currentFontSize; 
+                    minFontSize = currentFontSize;
+                } else {
+                    maxFontSize = currentFontSize; 
+                }
+
+                if ((maxFontSize - minFontSize) < 0.01) { // More precise threshold
+                    break;
+                }
+            }
+            
+            paragraph.style.fontSize = bestFontSize + 'px';
+
+            // Final check to ensure it strictly fits, especially important on mobile
+            // If after the binary search it still overflows, slightly reduce font size
+            if (paragraph.scrollHeight > targetHeight && bestFontSize > 0.1) {
+                let slightlySmallerFont = bestFontSize - 0.05; // Adjust by a smaller increment
+                if (slightlySmallerFont < 0.1) slightlySmallerFont = 0.1;
+                paragraph.style.fontSize = slightlySmallerFont + 'px';
+            }
         }
 
-        if ((maxFontSize - minFontSize) < 0.05) { // Desired precision (e.g., 0.05px)
-          break;
+        function debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
         }
-      }
-      
-      paragraph.style.fontSize = bestFontSize + 'px';
 
-      // Final check: If bestFontSize is applied and it slightly overflows,
-      // it might be due to sub-pixel calculations or the binary search ending right at the threshold.
-      // This ensures it strictly fits if bestFontSize was indeed the upper limit of what fits.
-      if (paragraph.scrollHeight > targetHeight && bestFontSize > 0.1) {
-          let slightlySmallerFont = bestFontSize - 0.1;
-          if (slightlySmallerFont < 0.1) slightlySmallerFont = 0.1; // Ensure a minimum
-          paragraph.style.fontSize = slightlySmallerFont + 'px';
-      }
-    }
+        const debouncedAdjustFontSize = debounce(adjustParagraphFontSize, 100);
 
-    function debounce(func, delay) {
-      let timeout;
-      return function(...args) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => func.apply(this, args), delay);
-      };
-    }
+        // A more robust approach for initial load and font loading
+        window.addEventListener('DOMContentLoaded', () => {
+            // Check if fonts are ready before adjusting font size
+            if (document.fonts) {
+                document.fonts.ready.then(() => {
+                    adjustParagraphFontSize();
+                }).catch(() => {
+                    // Fallback if font ready promise fails (e.g., very old browser)
+                    setTimeout(adjustParagraphFontSize, 50); 
+                });
+            } else {
+                // Fallback for browsers without document.fonts API
+                setTimeout(adjustParagraphFontSize, 50);
+            }
+        });
 
-    const debouncedAdjustFontSize = debounce(adjustParagraphFontSize, 100);
+        window.addEventListener('resize', debouncedAdjustFontSize);
 
-    window.addEventListener('DOMContentLoaded', () => {
-        if (document.fonts) {
-            document.fonts.ready.then(() => {
+        // Add an event listener for orientation change on mobile devices
+        // This is crucial as it often triggers viewport height changes
+        window.addEventListener('orientationchange', debouncedAdjustFontSize);
+
+        // Safari and Chrome on iOS/Android have a common issue where the viewport
+        // height changes when the address bar hides/shows. A common workaround
+        // is to listen to scroll events, but debounce it heavily.
+        // This might be overkill if dvh works perfectly, but good for older devices.
+        let lastViewportHeight = window.innerHeight;
+        window.addEventListener('scroll', debounce(() => {
+            if (Math.abs(window.innerHeight - lastViewportHeight) > 10) { // Check for significant height change
                 adjustParagraphFontSize();
-            }).catch(() => {
-                // Fallback if font ready promise fails
-                setTimeout(adjustParagraphFontSize, 50); 
-            });
-        } else {
-             // Fallback for older browsers
-            setTimeout(adjustParagraphFontSize, 50);
-        }
-    });
-    window.addEventListener('resize', debouncedAdjustFontSize);
-    // An additional call on 'load' can sometimes help ensure all resources and layouts are final
-    window.addEventListener('load', adjustParagraphFontSize);
+                lastViewportHeight = window.innerHeight;
+            }
+        }, 250)); // Debounce scroll event to avoid performance issues
+        
+        // Final fallback to ensure it runs after everything renders
+        window.addEventListener('load', adjustParagraphFontSize);
 
-  </script>
+    </script>
 </body>
 </html>
