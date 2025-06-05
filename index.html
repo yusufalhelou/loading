@@ -44,6 +44,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 20px; /* Increased padding for void space */
     }
     
     .dot {
@@ -193,9 +194,9 @@
       // it might be due to sub-pixel calculations or the binary search ending right at the threshold.
       // This ensures it strictly fits if bestFontSize was indeed the upper limit of what fits.
       if (paragraph.scrollHeight > targetHeight && bestFontSize > 0.1) {
-         let slightlySmallerFont = bestFontSize - 0.1;
-         if (slightlySmallerFont < 0.1) slightlySmallerFont = 0.1; // Ensure a minimum
-         paragraph.style.fontSize = slightlySmallerFont + 'px';
+          let slightlySmallerFont = bestFontSize - 0.1;
+          if (slightlySmallerFont < 0.1) slightlySmallerFont = 0.1; // Ensure a minimum
+          paragraph.style.fontSize = slightlySmallerFont + 'px';
       }
     }
 
