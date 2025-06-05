@@ -19,6 +19,7 @@
       justify-content: center;
       align-items: center;
       font-family: 'Cutive Mono', monospace;
+      filter: contrast(3);
     }
     
     .container {
@@ -29,64 +30,58 @@
       max-height: 100vh;
       position: relative;
       overflow: hidden;
-      filter: contrast(3);
-    }
-    
-    .loader {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
       background: #000;
-      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
     
-    .dot {
-      border-radius: 10px;
-      position: absolute;
-      filter: blur(10px);
-      height: 20px;
-      width: 20px;
-    }
-    
-    .dot:first-child {
-      animation: fc 10s ease infinite;
-    }
-    
-    .dot:last-child {
-      animation: lc 10s ease infinite;
-    }
-    
-    .courses-grid {
-      position: absolute;
-      top: 0;
-      left: 0;
+    .content-wrapper {
+      position: relative;
       width: 100%;
       height: 100%;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-auto-rows: 1fr;
-      gap: 8px;
-      padding: 15px;
-      z-index: 2;
-    }
-    
-    .course {
-      color: #2ff;
-      font-size: 0.65rem;
-      text-align: center;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 4px;
-      border-radius: 2px;
+    }
+    
+    .dot {
+      position: absolute;
+      border-radius: 10px;
+      filter: blur(10px);
+      height: 20px;
+      width: 20px;
+      z-index: 1;
+    }
+    
+    .dot:nth-child(1) {
+      animation: fc 10s ease infinite;
+      top: 30%;
+      left: 20%;
+    }
+    
+    .dot:nth-child(2) {
+      animation: lc 10s ease infinite;
+      bottom: 40%;
+      right: 25%;
+    }
+    
+    .courses-text {
+      position: relative;
+      z-index: 2;
+      color: #2ff;
+      text-align: center;
+      padding: 20px;
+      font-size: 1.8vh;
+      line-height: 1.4;
       animation: b 5s infinite;
+      text-shadow: 0 0 10px rgba(0, 255, 255, 0.7);
+      max-width: 100%;
+      max-height: 100%;
+      overflow: hidden;
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      word-break: break-word;
-      overflow: hidden;
-      text-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
     }
     
     @keyframes fc {
@@ -99,7 +94,7 @@
       }
       50% {
         background: #aaf;
-        transform: translate3d(80%, 0, 0);
+        transform: translate3d(80px, 40px, 0);
       }
       100% {
         background: #ddf;
@@ -116,6 +111,7 @@
       }
       50% {
         background: #12d;
+        transform: translate3d(-60px, -30px, 0);
       }
       75% {
         background: #4df;
@@ -133,60 +129,47 @@
         filter: blur(1.5px);
       }
     }
+    
+    /* Aspect ratio bars for non-9:16 screens */
+    .top-bar, .bottom-bar {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: calc((100% - 100vh * 9/16) / 2);
+      background: #000;
+      z-index: 10;
+    }
+    
+    .top-bar {
+      top: 0;
+    }
+    
+    .bottom-bar {
+      bottom: 0;
+    }
+    
+    /* Hide bars when not needed */
+    @media (max-aspect-ratio: 9/16) {
+      .top-bar, .bottom-bar {
+        display: none;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="top-bar"></div>
+  
   <div class="container">
-    <div class="loader">
+    <div class="content-wrapper">
       <div class="dot"></div>
       <div class="dot"></div>
-    </div>
-    
-    <div class="courses-grid">
-      <!-- Courses will be inserted here by JavaScript -->
+      
+      <div class="courses-text">
+        Mathematics | Human Rights and Corruption Fighting | Pharmaceutical Analytical Chemistry 1 | Pharmaceutical Organic Chemistry 1 | Pharmacy Orientation | Medicinal Plants | Medical Terminology | Information Technology | Pharmaceutical Analytical Chemistry 2 | Pharmaceutical Organic Chemistry 2 | Cell Biology | Anatomy and Histology | Physical Pharmacy | Pharmacognosy 1 | Psychology | Communication and Presentation Skills | Pharmaceutical Analytical Chemistry 3 | Pharmaceutical Organic Chemistry 3 | Scientific Writing | Pharmacognosy 2 | Physiology | Pharmaceutics 1 | Biochemistry 1 | General Microbiology and Immunology | Instrumental Analysis | Pathophysiology | Pharmaceutics 2 | Biostatistics | Biochemistry 2 | Parasitology and Virology | Phytochemistry 1 | Pharmaceutics 3 | Spectroscopic Identification | Pharmacology 1 | Pharmaceutical Microbiology | Biopharmaceutics and Pharmacokinetics | Phytochemistry 2 | Pharmaceutics 4 | Pharmacology 2 | Hospital Pharmacy | Geriatrics | Biotechnology | Pharmacology 3 | Applied & Forensic Pharmacognosy | Drug Information | Clinical Biochemistry | Pharmaceutical Technology 1 | Medicinal Chemistry 1 | Pharmaceutical Legislation and Regulatory Affairs | Clinical Nutrition | Clinical Pharmacokinetics | Quality Control and Pharmaceutical Analysis | Phytotherapy and Aromatherapy | Therapeutics | Pharmaceutical Technology 2 | Community Pharmacy Practice | Medicinal Chemistry 2 | Drug Targeting | Medical Microbiology | Clinical Pharmacy 1 | Clinical Research, Pharmacoepidemiology and Pharmacovigilance | Pathology | Good Manufacturing Practice | Drug Marketing & Pharmacoeconomics | Medicinal Chemistry 3 | Drug Design | Toxicology and Forensic Chemistry | First Aid | Research Methodology | Advanced Drug Delivery Systems | Clinical Pharmacy 2 & Pharmacotherapeutics | Entrepreneurship | Public Health | Professional Ethics | Modern Trend in Drug Synthesis
+      </div>
     </div>
   </div>
-
-  <script>
-    const courses = [
-      "Mathematics", "Human Rights and Corruption Fighting", 
-      "Pharmaceutical Analytical Chemistry 1", "Pharmaceutical Organic Chemistry 1", 
-      "Pharmacy Orientation", "Medicinal Plants", "Medical Terminology", 
-      "Information Technology", "Pharmaceutical Analytical Chemistry 2", 
-      "Pharmaceutical Organic Chemistry 2", "Cell Biology", "Anatomy and Histology", 
-      "Physical Pharmacy", "Pharmacognosy 1", "Psychology", 
-      "Communication and Presentation Skills", "Pharmaceutical Analytical Chemistry 3", 
-      "Pharmaceutical Organic Chemistry 3", "Scientific Writing", "Pharmacognosy 2", 
-      "Physiology", "Pharmaceutics 1", "Biochemistry 1", 
-      "General Microbiology and Immunology", "Instrumental Analysis", "Pathophysiology", 
-      "Pharmaceutics 2", "Biostatistics", "Biochemistry 2", 
-      "Parasitology and Virology", "Phytochemistry 1", "Pharmaceutics 3", 
-      "Spectroscopic Identification", "Pharmacology 1", "Pharmaceutical Microbiology", 
-      "Biopharmaceutics and Pharmacokinetics", "Phytochemistry 2", "Pharmaceutics 4", 
-      "Pharmacology 2", "Hospital Pharmacy", "Geriatrics", "Biotechnology", 
-      "Pharmacology 3", "Applied & Forensic Pharmacognosy", "Drug Information", 
-      "Clinical Biochemistry", "Pharmaceutical Technology 1", "Medicinal Chemistry 1", 
-      "Pharmaceutical Legislation and Regulatory Affairs", "Clinical Nutrition", 
-      "Clinical Pharmacokinetics", "Quality Control and Pharmaceutical Analysis", 
-      "Phytotherapy and Aromatherapy", "Therapeutics", "Pharmaceutical Technology 2", 
-      "Community Pharmacy Practice", "Medicinal Chemistry 2", "Drug Targeting", 
-      "Medical Microbiology", "Clinical Pharmacy 1", 
-      "Clinical Research, Pharmacoepidemiology and Pharmacovigilance", "Pathology", 
-      "Good Manufacturing Practice", "Drug Marketing & Pharmacoeconomics", 
-      "Medicinal Chemistry 3", "Drug Design", "Toxicology and Forensic Chemistry", 
-      "First Aid", "Research Methodology", "Advanced Drug Delivery Systems", 
-      "Clinical Pharmacy 2 & Pharmacotherapeutics", "Entrepreneurship", "Public Health", 
-      "Professional Ethics", "Modern Trend in Drug Synthesis"
-    ];
-    
-    const grid = document.querySelector('.courses-grid');
-    
-    courses.forEach(course => {
-      const div = document.createElement('div');
-      div.className = 'course';
-      div.textContent = course;
-      grid.appendChild(div);
-    });
-  </script>
+  
+  <div class="bottom-bar"></div>
 </body>
 </html>
